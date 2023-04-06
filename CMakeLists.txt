@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(jcc
     LANGUAGES C
     VERSION 0.0.0
-    DESCRIPTION "A C compiler that outputs JavaScript."
+    DESCRIPTION "A C compiler that outputs JavaScript"
     HOMEPAGE_URL "https://mojsoski.mk"
 )
 
