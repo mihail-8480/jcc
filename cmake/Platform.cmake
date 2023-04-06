@@ -31,12 +31,18 @@ endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 # Set the common C compiler flags.
 set(CMAKE_C_STANDARD 23)
-set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic -Werror")
-set(CMAKE_C_FLAGS_DEBUG "-ggdb3")
-set(CMAKE_C_FLAGS_RELEASE "-O3")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic -Werror -fPIC")
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+    message("-- Building in release mode")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast")
+else()
+    message("-- Building in debug mode")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb3")
+endif()
 
 # For the relative filename macro.
 string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
