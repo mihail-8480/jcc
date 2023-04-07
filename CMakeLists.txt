@@ -17,9 +17,12 @@ add_compile_definitions(JCC_VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR})
 add_compile_definitions(JCC_VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR})
 add_compile_definitions(JCC_VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
 
-add_executable(jcc src/main.c)
-target_include_directories(jcc PUBLIC lib)
+include_directories(lib)
 
+add_library(jcore SHARED src/core/string.c)
+
+add_executable(jcc src/main.c)
+target_link_libraries(jcc PUBLIC jcore)
 
 install(TARGETS jcc
         RUNTIME DESTINATION bin
