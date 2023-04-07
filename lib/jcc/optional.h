@@ -18,6 +18,7 @@
         void *value;      \
     }
 
-#define JCC_TRY(__T__, ...) ({ __auto_type _retval = (__VA_ARGS__); if (!_retval.has_value) { return JCC_NONE(__T__); }; _retval.value; })
 #define JCC_SOME(__T__, ...) ((struct _ret_type_##__T__){.value = (__T__)__VA_ARGS__, .has_value = true})
 #define JCC_NONE(__T__) ((struct _ret_type_##__T__){.has_value = false})
+#define JCC_NONE_IF_NULL(__T__, ...) ({ __auto_type _retval = (__VA_ARGS__); if (_retval == (void*)0) { return JCC_NONE(__T__); } })
+#define JCC_TRY(__T__, ...) ({ __auto_type _retval = (__VA_ARGS__); if (!_retval.has_value) { return JCC_NONE(__T__); }; _retval.value; })

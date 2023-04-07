@@ -4,6 +4,7 @@
 JCC_OPTIONAL_TYPE(jcc_string_t)
 jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length)
 {
+    JCC_NONE_IF_NULL(jcc_string_t, base);
     if (offset + length > base->length)
     {
         return JCC_NONE(jcc_string_t);

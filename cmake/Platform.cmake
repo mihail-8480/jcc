@@ -31,9 +31,7 @@ endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 # Set the common C compiler flags.
 set(CMAKE_C_STANDARD 23)
-set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic -Werror -fPIC")
-set(CMAKE_C_EXTENSIONS OFF)
-set(CMAKE_C_STANDARD_REQUIRED TRUE)
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -fPIC")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
