@@ -9,7 +9,7 @@ JCC_VOID_OPTIONAL test() {
 
 int main()
 {
-    jcc_log_info(JCC_VERSION);
+    jcc_log_info("Version: " JCC_VERSION);
     JCC_UNWRAP(test());
     return 0;
 }
