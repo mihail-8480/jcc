@@ -1,3 +1,3 @@
 #pragma once
 
-#define jcc_auto __auto_type
+#define AUTO __auto_type

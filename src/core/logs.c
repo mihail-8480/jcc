@@ -45,8 +45,8 @@ static inline jcc_int_t get_offset(jcc_log_level_t level)
 void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte_t *message)
 {
     jcc_int_t offset = get_offset(level);
-    jcc_auto stream = CALL(FILE, GET_NATIVE_STREAM_FROM_FD, log_fds[offset], "a");
-    jcc_auto now = CALL(TIME, NOW);
+    AUTO stream = CALL(FILE, GET_NATIVE_STREAM_FROM_FD, log_fds[offset], "a");
+    AUTO now = CALL(TIME, NOW);
 
     if (log_settings.show_date)
     {
