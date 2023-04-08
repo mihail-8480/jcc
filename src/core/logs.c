@@ -6,6 +6,17 @@
 #include <jcc/logs.h>
 #include <jcc/auto.h>
 
+#ifdef DEBUG
+jcc_log_level_t min_level = LOG_DEBUG;
+#else
+jcc_log_level_t min_level = LOG_INFO;
+#endif
+
+void jcc_log_set_level(jcc_log_level_t level)
+{
+    min_level = level;
+}
+
 jcc_log_settings_t log_settings = {
     .show_code_path = true,
     .show_date = true,
@@ -27,27 +38,29 @@ jcc_log_settings_t jcc_log_get_settings(void)
 
 jcc_int_t log_fds[LOG_LEVEL_COUNT] = {
     CONST(FILE, FD_OUT),
-    CONST(FILE, FD_ERR),
-    CONST(FILE, FD_ERR),
     CONST(FILE, FD_OUT),
+    CONST(FILE, FD_ERR),
+    CONST(FILE, FD_ERR),
+    CONST(FILE, FD_ERR),
 };
 
 const jcc_byte_t *log_names[] = {
+    "DEBUG",
     "INFO",
+    "FIXME",
     "WARNING",
     "ERROR",
-    "FIXME",
 };
 
 static inline jcc_int_t get_offset(jcc_log_level_t level)
 {
     if (level <= 0)
     {
-        return 0;
+        return LOG_INFO - 1;
     }
     if (level > LOG_LEVEL_COUNT)
     {
-        return 0;
+        return LOG_INFO - 1;
     }
     return level - 1;
 }
@@ -86,6 +99,10 @@ jcc_bool_t jcc_log_remove_handler(jcc_log_handler_t handler)
 
 void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte_t *message)
 {
+    if (level < min_level)
+    {
+        goto notify_handlers;
+    }
     jcc_int_t offset = get_offset(level);
     AUTO stream = CALL(FILE, GET_NATIVE_STREAM_FROM_FD, log_fds[offset], "a");
     AUTO now = CALL(TIME, NOW);
@@ -126,6 +143,9 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
         {
             switch (level)
             {
+            case LOG_DEBUG:
+                CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_YELLOW)));
+                break;
             case LOG_WARNING:
                 CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_YELLOW)));
                 break;
@@ -186,6 +206,7 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
 
     CALL(FILE, CLOSE_NATIVE_STREAM, stream);
 
+notify_handlers:
     for (jcc_size_t i = 0; i < log_handler_length; i++)
     {
         log_handlers[i](level, location, message);
