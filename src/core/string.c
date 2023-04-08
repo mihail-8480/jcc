@@ -13,7 +13,10 @@ jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length)
         return NONE;
     }
 
-    return SOME((jcc_string_t){.length = length, .value = base->value + offset});
+    return SOME((jcc_string_t){
+        .length = length,
+        .value = base->value + offset,
+    });
 }
 #undef __T__
 
@@ -21,7 +24,9 @@ jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length)
 jcc_optional_string_t jcc_string_from_cstr(jcc_cstr_ptr cstr)
 {
     NONE_IF_NULL(cstr);
-    return SOME((jcc_string_t){.value = cstr,
-                               .length = CALL(STRING, STRLEN, cstr)});
+    return SOME((jcc_string_t){
+        .value = cstr,
+        .length = CALL(STRING, STRLEN, cstr),
+    });
 }
 #undef __T__

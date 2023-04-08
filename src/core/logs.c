@@ -148,27 +148,20 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
         }
         CALL(FILE, FORMAT_PRINT, stream, " ");
     }
-
     if (log_settings.show_code_path)
     {
         if (log_settings.enable_color)
         {
-            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
-        }
-        CALL(FILE, FORMAT_PRINT, stream, "[");
-
-        if (log_settings.enable_color)
-        {
             CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_CYAN)));
         }
-        CALL(FILE, FORMAT_PRINT, stream, "%s() ", location.function_name);
+        CALL(FILE, FORMAT_PRINT, stream, "%s():", location.function_name);
 
         if (log_settings.enable_color)
         {
             CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
             CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
         }
-        CALL(FILE, FORMAT_PRINT, stream, "%s:%d", location.file_name, location.file_line);
+        CALL(FILE, FORMAT_PRINT, stream, "<%s:%d>", location.file_name, location.file_line);
 
         if (log_settings.enable_color)
         {
@@ -176,7 +169,7 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
             CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
         }
 
-        CALL(FILE, FORMAT_PRINT, stream, "] ");
+        CALL(FILE, FORMAT_PRINT, stream, " ");
 
         if (log_settings.enable_color)
         {
@@ -185,6 +178,7 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
     }
 
     CALL(FILE, FORMAT_PRINT, stream, "%s", message);
+
     if (log_settings.append_newline)
     {
         CALL(FILE, FORMAT_PRINT, stream, "\n");
