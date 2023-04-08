@@ -25,6 +25,7 @@ execute_process(COMMAND
         RESULT_VARIABLE
         GIT_CHANGES)
 
+message(${GIT_CHANGES})
 if(${GIT_CHANGES} EQUAL 0)
         add_compile_definitions(GIT_CLEAN)
 endif()
