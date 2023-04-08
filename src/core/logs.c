@@ -42,6 +42,38 @@ static inline jcc_int_t get_offset(jcc_log_level_t level)
     return level - 1;
 }
 
+#ifndef LOG_HANDLER_MAX
+#define LOG_HANDLER_MAX 1024
+#endif
+
+jcc_log_handler_t *log_handlers[LOG_HANDLER_MAX] = {0};
+jcc_size_t log_handler_length = 0;
+
+jcc_bool_t jcc_log_add_handler(jcc_log_handler_t handler)
+{
+    if (log_handler_length == LOG_HANDLER_MAX)
+    {
+        return false;
+    }
+
+    log_handlers[log_handler_length++] = handler;
+
+    return true;
+}
+
+jcc_bool_t jcc_log_remove_handler(jcc_log_handler_t handler)
+{
+    for (jcc_size_t i = 0; i < log_handler_length; i++)
+    {
+        if (log_handlers[i] == handler)
+        {
+            log_handlers[i--] = 0;
+            return true;
+        }
+    }
+    return false;
+}
+
 void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte_t *message)
 {
     jcc_int_t offset = get_offset(level);
@@ -145,6 +177,11 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
     }
 
     CALL(FILE, CLOSE_NATIVE_STREAM, stream);
+
+    for (jcc_size_t i = 0; i < log_handler_length; i++)
+    {
+        log_handlers[i](level, location, message);
+    }
 }
 
 void jcc_log_set_fd_for_level(jcc_log_level_t level, jcc_int_t fd)

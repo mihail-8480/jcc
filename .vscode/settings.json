@@ -23,6 +23,7 @@
         "auto.h": "c",
         "logs.h": "c",
         "source_location": "c",
-        "string": "c"
+        "string": "c",
+        "string_view": "c"
     }
 }

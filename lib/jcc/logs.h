@@ -19,9 +19,13 @@ typedef struct jcc_log_settings
     jcc_bool_t append_newline;
 } jcc_log_settings_t;
 
+typedef void jcc_log_handler_t(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte_t *message);
+
 void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte_t *message);
 void jcc_log_set_fd_for_level(jcc_log_level_t level, jcc_int_t fd);
 void jcc_log_set_settings(jcc_log_settings_t settings);
+jcc_bool_t jcc_log_add_handler(jcc_log_handler_t handler);
+jcc_bool_t jcc_log_remove_handler(jcc_log_handler_t handler);
 jcc_log_settings_t jcc_log_get_settings(void);
 
 #define LOG(...) jcc_log(LOG_INFO, CODE_LOCATION_ANY(), (__VA_ARGS__))
