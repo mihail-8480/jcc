@@ -19,11 +19,8 @@ add_compile_definitions(JCC_VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
 
 include_directories(lib)
 
-add_library(jcore SHARED src/core/string.c src/core/error.c src/core/logs.c)
-target_compile_definitions(jcore PRIVATE JCC_IMPL)
-
 add_executable(jcc src/main.c)
-target_link_libraries(jcc PUBLIC jcore)
+target_link_libraries(jcc PUBLIC ${JCORE_LIB})
 
 install(TARGETS jcc
         RUNTIME DESTINATION bin
