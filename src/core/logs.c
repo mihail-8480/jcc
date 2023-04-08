@@ -97,7 +97,7 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
             CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_MAGENTA)));
         }
 
-        CALL(FILE, FORMAT_PRINT, stream, "%02d:%02d:%02d ", CALL(TIME, YEAR, now), CALL(TIME, MONTH, now), CALL(TIME, DAY, now));
+        CALL(FILE, FORMAT_PRINT, stream, "%02d-%02d-%02d ", CALL(TIME, YEAR, now), CALL(TIME, MONTH, now), CALL(TIME, DAY, now));
 
         if (log_settings.enable_color)
         {

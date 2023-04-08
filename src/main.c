@@ -3,6 +3,7 @@
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {
+    FIXME("Move this to a compiler function");
     AUTO context = UNWRAP(jcc_get_file_context("src/main.c"));
     jcc_optional_token_t token;
     do
