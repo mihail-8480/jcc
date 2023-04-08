@@ -21,7 +21,7 @@ execute_process(COMMAND
         GIT_REMOTE)
 
 execute_process(COMMAND
-        "${GIT_EXECUTABLE}" diff-index --quiet HEAD --
+        "${GIT_EXECUTABLE}" status --porcelain
         RESULT_VARIABLE
         GIT_CHANGES_RESULT
         OUTPUT_VARIABLE
@@ -29,7 +29,9 @@ execute_process(COMMAND
 
 message(RESULT = ${GIT_CHANGES_RESULT})
 message(CHANGES = ${GIT_CHANGES})
-if(${GIT_CHANGES_RESULT} EQUAL 0)
+string(LENGTH GIT_CHANGES GIT_CHANGES_LEN)
+message(LENGTH = ${GIT_CHANGES_LEN})
+if(${GIT_CHANGES_LEN} EQUAL 0)
         add_compile_definitions(GIT_CLEAN)
 endif()
 
