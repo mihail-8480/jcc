@@ -23,10 +23,13 @@ execute_process(COMMAND
 execute_process(COMMAND
         "${GIT_EXECUTABLE}" diff-index --quiet HEAD --
         RESULT_VARIABLE
+        GIT_CHANGES_RESULT
+        OUTPUT_VARIABLE
         GIT_CHANGES)
 
-message(${GIT_CHANGES})
-if(${GIT_CHANGES} EQUAL 0)
+message(RESULT = ${GIT_CHANGES_RESULT})
+message(CHANGES = ${GIT_CHANGES})
+if(${GIT_CHANGES_RESULT} EQUAL 0)
         add_compile_definitions(GIT_CLEAN)
 endif()
 
