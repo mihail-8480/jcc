@@ -3,4 +3,4 @@
 
 void jcc_abort(void);
 
-#define JCC_PANIC(...) ({ jcc_log_error(__VA_ARGS__); jcc_abort(); })
+#define PANIC(...) ({ LOG_ERR(__VA_ARGS__); jcc_abort(); })

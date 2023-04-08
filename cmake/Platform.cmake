@@ -24,7 +24,7 @@ if (HAIKU)
 endif (HAIKU)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_compile_definitions(JCC_DEBUG)
+    add_compile_definitions(DEBUG)
 endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 set(CMAKE_C_STANDARD 23)
@@ -50,13 +50,13 @@ IF (UNIX)
     SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 ENDIF ()
 
-SET(JCC_PLATFORM "libc" CACHE STRING "The JCC platform")
-set(JCORE_LIB "jcore_${JCC_PLATFORM}")
+SET(PLATFORM "libc" CACHE STRING "The JCC platform")
+set(JCORE_LIB "jcore_${PLATFORM}")
 
-message("-- JCC platform: " ${JCC_PLATFORM})
+message("-- JCC platform: " ${PLATFORM})
 message("-- JCC core lib: " ${JCORE_LIB})
 
 add_library(${JCORE_LIB} SHARED src/core/string.c src/core/error.c src/core/logs.c)
-target_compile_definitions(${JCORE_LIB} PRIVATE JCC_IMPL)
-target_compile_definitions(${JCORE_LIB} PUBLIC "JCC_PLATFORM=${JCC_PLATFORM}")
+target_compile_definitions(${JCORE_LIB} PRIVATE IMPL)
+target_compile_definitions(${JCORE_LIB} PUBLIC "PLATFORM=${PLATFORM}")
 

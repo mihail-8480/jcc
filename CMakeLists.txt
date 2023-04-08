@@ -13,9 +13,9 @@ if (Git_FOUND)
     include("cmake/Git.cmake")
 endif ()
 
-add_compile_definitions(JCC_VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR})
-add_compile_definitions(JCC_VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR})
-add_compile_definitions(JCC_VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
+add_compile_definitions(VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR})
+add_compile_definitions(VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR})
+add_compile_definitions(VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
 
 include_directories(lib)
 

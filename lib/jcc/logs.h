@@ -1,12 +1,12 @@
 #pragma once
 #include "code.h"
-#define JCC_LOG_LEVEL_COUNT 3
+#define LOG_LEVEL_COUNT 3
 typedef enum jcc_log_level
 {
-    JCC_LOG_LEVEL_ALL = 0,
-    JCC_LOG_INFO = 1,
-    JCC_LOG_WARNING = 2,
-    JCC_LOG_ERROR = 3
+    LOG_LEVEL_ALL = 0,
+    LOG_INFO = 1,
+    LOG_WARNING = 2,
+    LOG_ERROR = 3
 } jcc_log_level_t;
 
 typedef struct jcc_log_settings
@@ -24,6 +24,6 @@ void jcc_log_set_fd_for_level(jcc_log_level_t level, jcc_int_t fd);
 void jcc_log_set_settings(jcc_log_settings_t settings);
 jcc_log_settings_t jcc_log_get_settings(void);
 
-#define jcc_log_info(...) jcc_log(JCC_LOG_INFO, JCC_CODE_LOCATION_ANY(), (__VA_ARGS__))
-#define jcc_log_warning(...) jcc_log(JCC_LOG_WARNING, JCC_CODE_LOCATION_ANY(), (__VA_ARGS__))
-#define jcc_log_error(...) jcc_log(JCC_LOG_ERROR, JCC_CODE_LOCATION_ANY(), (__VA_ARGS__))
+#define LOG(...) jcc_log(LOG_INFO, CODE_LOCATION_ANY(), (__VA_ARGS__))
+#define LOG_WARN(...) jcc_log(LOG_WARNING, CODE_LOCATION_ANY(), (__VA_ARGS__))
+#define LOG_ERR(...) jcc_log(LOG_ERROR, CODE_LOCATION_ANY(), (__VA_ARGS__))

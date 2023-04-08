@@ -15,5 +15,5 @@ typedef struct jcc_code_location
 #endif
 
 #define __FILENAME__ (__FILE__ + SOURCE_PATH_SIZE)
-#define JCC_CODE_LOCATION(x) ((jcc_code_location_t){.file_name = __FILENAME__, .file_line = __LINE__, .function_name = #x, .function_address = (jcc_size_t)x})
-#define JCC_CODE_LOCATION_ANY() ((jcc_code_location_t){.file_name = __FILENAME__, .file_line = __LINE__, .function_name = __func__, .function_address = (jcc_size_t)0})
+#define CODE_LOCATION(x) ((jcc_code_location_t){.file_name = __FILENAME__, .file_line = __LINE__, .function_name = #x, .function_address = (jcc_size_t)x})
+#define CODE_LOCATION_ANY() ((jcc_code_location_t){.file_name = __FILENAME__, .file_line = __LINE__, .function_name = __func__, .function_address = (jcc_size_t)0})

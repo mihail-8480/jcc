@@ -1,8 +1,8 @@
 #include <jcc/error.h>
 #include <jcc/platform.h>
-#include JCC_INTERFACE(error)
+#include INTERFACE(ERROR)
 
 void jcc_abort(void)
 {
-    JCC_CALL(ERROR, ABORT);
+    CALL(ERROR, ABORT);
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-
 typedef char jcc_byte_t;
 typedef unsigned char jcc_ubyte_t;
 typedef unsigned int jcc_uint_t;

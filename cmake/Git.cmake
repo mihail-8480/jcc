@@ -6,4 +6,4 @@ execute_process(COMMAND
         OUTPUT_VARIABLE
         GIT_HASH)
 string(REGEX REPLACE "\n$" "" GIT_HASH "${GIT_HASH}")
-add_compile_definitions(JCC_GIT_HASH="${GIT_HASH}")
+add_compile_definitions(GIT_HASH="${GIT_HASH}")
