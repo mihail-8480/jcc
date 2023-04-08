@@ -1,11 +1,9 @@
 #pragma once
 #include "numeric.h"
 #include "optional.h"
-#include "attributes.h"
 
-typedef char jcc_byte_t;
 
-typedef jcc_byte_t *jcc_cstr_ptr;
+typedef const jcc_byte_t *jcc_cstr_ptr;
 
 typedef struct jcc_string
 {
@@ -13,5 +11,12 @@ typedef struct jcc_string
     jcc_cstr_ptr value;
 } jcc_string_t;
 
-JCC_OPTIONAL(jcc_string_t)
-jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length);
+#define __T__ jcc_string_t
+typedef JCC_OPTIONAL jcc_optional_string_t;
+#undef __T__
+
+#define JCC_CONST_STRING(__literal__) ((jcc_string_t){.length = sizeof(__literal__) - 1, .value = (__literal__)})
+#define JCC_CONST_ARRAY_STRING(__literal__) ((jcc_string_t){.length = sizeof(__literal__), .value = (__literal__)})
+
+jcc_optional_string_t jcc_string_from_cstr(jcc_cstr_ptr cstr);
+jcc_optional_string_t jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length);
