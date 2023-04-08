@@ -27,9 +27,7 @@ execute_process(COMMAND
         OUTPUT_VARIABLE
         GIT_CHANGES)
 
-message(RESULT = ${GIT_CHANGES_RESULT})
-message(CHANGES = ${GIT_CHANGES})
-string(LENGTH ${GIT_CHANGES} GIT_CHANGES_LEN)
+string(LENGTH "${GIT_CHANGES}" GIT_CHANGES_LEN)
 message(LENGTH = ${GIT_CHANGES_LEN})
 if(${GIT_CHANGES_LEN} EQUAL 0)
         add_compile_definitions(GIT_CLEAN)
