@@ -8,11 +8,12 @@ project(jcc
 
 include("cmake/Platform.cmake")
 
-find_package(Git)
-if (Git_FOUND)
-    include("cmake/Git.cmake")
+if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    find_package(Git)
+    if (Git_FOUND)
+        include("cmake/Git.cmake")
+    endif ()
 endif ()
-
 add_compile_definitions(VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR})
 add_compile_definitions(VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR})
 add_compile_definitions(VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
