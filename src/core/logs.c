@@ -45,24 +45,21 @@ static inline jcc_int_t get_offset(jcc_log_level_t level)
 void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte_t *message)
 {
     jcc_int_t offset = get_offset(level);
-    jcc_auto stream = JCC_INTERFACE_FILE_GET_NATIVE_STREAM_FROM_FD(log_fds[offset], "a");
-    jcc_auto now = JCC_INTERFACE_TIME_NOW();
+    jcc_auto stream = JCC_CALL(FILE, GET_NATIVE_STREAM_FROM_FD, log_fds[offset], "a");
+    jcc_auto now = JCC_CALL(TIME, NOW);
 
     if (log_settings.show_date)
     {
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_DIM ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_MAGENTA));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_MAGENTA)));
         }
 
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "%02d:%02d:%02d ",
-                                          JCC_INTERFACE_TIME_YEAR(now),
-                                          JCC_INTERFACE_TIME_MONTH(now),
-                                          JCC_INTERFACE_TIME_DAY(now));
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "%02d:%02d:%02d ", JCC_CALL(TIME, YEAR, now), JCC_CALL(TIME, MONTH, now), JCC_CALL(TIME, DAY, now));
 
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_FORMAT_RESET);
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
         }
     }
 
@@ -70,16 +67,14 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
     {
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_DIM ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_MAGENTA));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_MAGENTA)));
         }
 
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "%02d:%02d:%02d ",
-                                          JCC_INTERFACE_TIME_HOUR(now),
-                                          JCC_INTERFACE_TIME_MINUTE(now),
-                                          JCC_INTERFACE_TIME_SECOND(now));
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "%02d:%02d:%02d ", JCC_CALL(TIME, HOUR, now), JCC_CALL(TIME, MINUTE, now), JCC_CALL(TIME, SECOND, now));
+
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_FORMAT_RESET);
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
         }
     }
 
@@ -87,37 +82,34 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
     {
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_DIM ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_BLUE));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
         }
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "[");
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "[");
 
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_BRIGHT));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT)));
         }
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "%s() ",
-                                          location.function_name);
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "%s() ", location.function_name);
 
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_FORMAT_RESET);
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_UNDERSCORE ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_BLUE));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_UNDERSCORE) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
         }
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "%s:%d",
-                                          location.file_name,
-                                          location.file_line);
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "%s:%d", location.file_name, location.file_line);
 
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_FORMAT_RESET);
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_DIM ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_BLUE));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
         }
 
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "] ");
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "] ");
 
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_FORMAT_RESET);
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
         }
     }
 
@@ -128,31 +120,31 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
             switch (level)
             {
             case JCC_LOG_WARNING:
-                JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_BRIGHT ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_YELLOW));
+                JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_YELLOW)));
                 break;
             case JCC_LOG_ERROR:
-                JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_BRIGHT ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_RED));
+                JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_RED)));
                 break;
             default:
-                JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_COLOR_ESCAPE_SEQ(JCC_INTERFACE_TERMINAL_COLORS_GEN_FORMAT_BRIGHT ";" JCC_INTERFACE_TERMINAL_COLORS_FOREGROUND_COL_GREEN));
+                JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, JCC_CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" JCC_CONST(TERMINAL_COLORS, FOREGROUND_COL_GREEN)));
                 break;
             }
         }
 
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "%s ", log_names[offset]);
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "%s ", log_names[offset]);
         if (log_settings.enable_color)
         {
-            JCC_INTERFACE_FILE_FORMATED_PRINT(stream, JCC_INTERFACE_TERMINAL_COLORS_SHELL_FORMAT_RESET);
+            JCC_CALL(FILE, FORMAT_PRINT, stream, JCC_CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
         }
     }
 
-    JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "%s", message);
-
+    JCC_CALL(FILE, FORMAT_PRINT, stream, "%s", message);
     if (log_settings.append_newline)
     {
-        JCC_INTERFACE_FILE_FORMATED_PRINT(stream, "\n");
+        JCC_CALL(FILE, FORMAT_PRINT, stream, "\n");
     }
-    JCC_INTERFACE_FILE_CLOSE_NATIVE_STREAM(stream);
+
+    JCC_CALL(FILE, CLOSE_NATIVE_STREAM, stream);
 }
 
 void jcc_log_set_fd_for_level(jcc_log_level_t level, jcc_int_t fd)

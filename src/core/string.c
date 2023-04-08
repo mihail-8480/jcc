@@ -22,6 +22,6 @@ jcc_optional_string_t jcc_string_from_cstr(jcc_cstr_ptr cstr)
 {
     JCC_NONE_IF_NULL(cstr);
     return JCC_SOME((jcc_string_t){.value = cstr,
-                     .length = JCC_INTERFACE_STRING_STRLEN(cstr)});
+                                   .length = JCC_CALL(STRING, STRLEN, cstr)});
 }
 #undef __T__

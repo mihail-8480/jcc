@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define JCC_INTERFACE_FILE_FORMATED_PRINT(__stream__, ...) fprintf(__stream__, __VA_ARGS__)
+
+#define JCC_INTERFACE_FILE_FORMAT_PRINT(__stream__, ...) fprintf(__stream__, __VA_ARGS__)
 #define JCC_INTERFACE_FILE_GET_NATIVE_STREAM_FROM_FD(__fd__, __mode__) fdopen(dup(__fd__), __mode__)
 #define JCC_INTERFACE_FILE_CLOSE_NATIVE_STREAM(__stream__) fclose(__stream__)
 

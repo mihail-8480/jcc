@@ -4,5 +4,5 @@
 
 void jcc_abort(void)
 {
-    JCC_INTERFACE_ERROR_ABORT();
+    JCC_CALL(ERROR, ABORT);
 }
