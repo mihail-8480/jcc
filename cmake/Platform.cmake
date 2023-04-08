@@ -31,7 +31,7 @@ set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -fPIC")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     message("-- Building in release mode")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast")
 else()
