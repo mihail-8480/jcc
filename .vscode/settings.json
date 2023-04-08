@@ -22,6 +22,7 @@
         "stdio.h": "c",
         "auto.h": "c",
         "logs.h": "c",
-        "source_location": "c"
+        "source_location": "c",
+        "string": "c"
     }
 }
