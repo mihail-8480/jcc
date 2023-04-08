@@ -2,7 +2,7 @@
 #include <jcc/string.h>
 
 #define __T__ void
-VOID_OPTIONAL test()
+OPTIONAL_VOID test()
 {
     return NONE;
 }

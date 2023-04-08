@@ -13,7 +13,7 @@
         __T__ value;                            \
     }
 
-#define VOID_OPTIONAL     \
+#define OPTIONAL_VOID     \
     struct _ret_type_void \
     {                     \
         bool has_value;   \
