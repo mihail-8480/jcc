@@ -9,9 +9,14 @@
 #define VERSION_SUFFIX ""
 #endif
 
+#ifndef IMPL
 #define IMPL
 #include "platform.h"
 #undef IMPL
+#else
+#include "platform.h"
+#endif
+
 #undef PLATFORM_DEFAULT
 #undef INTERFACE
 #undef CALL
@@ -24,3 +29,5 @@
 #endif
 
 #define VERSION "v" VERSION_NUM VERSION_SUFFIX " (commit: " GIT_HASH ", platform: " VERSION_PLATFORM() ")"
+
+void jcc_register_component(const char *name, const char *version);

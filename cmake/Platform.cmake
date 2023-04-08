@@ -56,7 +56,7 @@ set(JCC_CORE_LIB "jcc-core-${PLATFORM}")
 message("-- JCC platform: " ${PLATFORM})
 message("-- JCC core lib: " ${JCC_CORE_LIB})
 
-add_library(${JCC_CORE_LIB} SHARED src/core/string.c src/core/error.c src/core/logs.c)
+add_library(${JCC_CORE_LIB} SHARED src/core/string.c src/core/error.c src/core/logs.c src/versions/jcc-core.c src/core/version.c)
 target_compile_definitions(${JCC_CORE_LIB} PRIVATE IMPL)
 target_compile_definitions(${JCC_CORE_LIB} PUBLIC "PLATFORM=${PLATFORM}")
 
