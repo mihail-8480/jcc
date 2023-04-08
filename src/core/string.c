@@ -3,8 +3,7 @@
 #include INTERFACE(STRING)
 
 #define __T__ jcc_string_t
-jcc_optional_string_t
-jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length)
+jcc_optional_string_t jcc_substring(const jcc_string_t *base, jcc_size_t offset, jcc_size_t length)
 {
     NONE_IF_NULL(base);
     NONE_IF_NULL(base->value);
