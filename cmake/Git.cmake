@@ -28,6 +28,7 @@ execute_process(COMMAND
         GIT_CHANGES)
 
 string(LENGTH "${GIT_CHANGES}" GIT_CHANGES_LEN)
+message("Git changes length: " ${GIT_CHANGES_LEN})
 if(${GIT_CHANGES_LEN} EQUAL 0)
         add_compile_definitions(GIT_CLEAN)
 endif()
