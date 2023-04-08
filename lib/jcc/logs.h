@@ -23,3 +23,7 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
 void jcc_log_set_fd_for_level(jcc_log_level_t level, jcc_int_t fd);
 void jcc_log_set_settings(jcc_log_settings_t settings);
 jcc_log_settings_t jcc_log_get_settings(void);
+
+#define jcc_log_info(...) jcc_log(JCC_LOG_INFO, JCC_CODE_LOCATION_ANY(), (__VA_ARGS__))
+#define jcc_log_warning(...) jcc_log(JCC_LOG_WARNING, JCC_CODE_LOCATION_ANY(), (__VA_ARGS__))
+#define jcc_log_error(...) jcc_log(JCC_LOG_ERROR, JCC_CODE_LOCATION_ANY(), (__VA_ARGS__))

@@ -1,9 +1,15 @@
 #include <jcc/version.h>
 #include <jcc/string.h>
 
+#define __T__ void
+JCC_VOID_OPTIONAL test() {
+    return JCC_NONE;
+}
+#undef __T__
+
 int main()
 {
-    jcc_auto str = JCC_UNWRAP(jcc_string_from_cstr(JCC_VERSION));
-    jcc_log(JCC_LOG_INFO, JCC_CODE_LOCATION_ANY(), str.value);
+    jcc_log_info(JCC_VERSION);
+    JCC_UNWRAP(test());
     return 0;
 }
