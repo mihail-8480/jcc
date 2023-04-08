@@ -19,8 +19,16 @@ add_compile_definitions(VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
 
 include_directories(lib)
 
+add_library(jcc-compiler SHARED src/compiler/lexer.c)
+target_link_libraries(jcc-compiler PUBLIC ${JCC_CORE_LIB})
+
+
+add_library(jcc-lang-c SHARED src/compiler/c/lexer.c src/compiler/c/compiler.c)
+target_link_libraries(jcc-lang-c PUBLIC jcc-compiler)
+
+
 add_executable(jcc src/main.c)
-target_link_libraries(jcc PUBLIC ${JCORE_LIB})
+target_link_libraries(jcc PUBLIC ${JCC_CORE_LIB} jcc-lang-c)
 
 install(TARGETS jcc
         RUNTIME DESTINATION bin

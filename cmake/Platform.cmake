@@ -51,12 +51,12 @@ IF (UNIX)
 ENDIF ()
 
 SET(PLATFORM "libc" CACHE STRING "The JCC platform")
-set(JCORE_LIB "jcore_${PLATFORM}")
+set(JCC_CORE_LIB "jcc-core-${PLATFORM}")
 
 message("-- JCC platform: " ${PLATFORM})
-message("-- JCC core lib: " ${JCORE_LIB})
+message("-- JCC core lib: " ${JCC_CORE_LIB})
 
-add_library(${JCORE_LIB} SHARED src/core/string.c src/core/error.c src/core/logs.c)
-target_compile_definitions(${JCORE_LIB} PRIVATE IMPL)
-target_compile_definitions(${JCORE_LIB} PUBLIC "PLATFORM=${PLATFORM}")
+add_library(${JCC_CORE_LIB} SHARED src/core/string.c src/core/error.c src/core/logs.c)
+target_compile_definitions(${JCC_CORE_LIB} PRIVATE IMPL)
+target_compile_definitions(${JCC_CORE_LIB} PUBLIC "PLATFORM=${PLATFORM}")
 

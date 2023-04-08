@@ -6,12 +6,14 @@
 #include <jcc/logs.h>
 #include <jcc/auto.h>
 
-jcc_log_settings_t log_settings = {.show_code_path = true,
-                                   .show_date = true,
-                                   .show_level = true,
-                                   .show_time = true,
-                                   .enable_color = true,
-                                   .append_newline = true};
+jcc_log_settings_t log_settings = {
+    .show_code_path = true,
+    .show_date = true,
+    .show_level = true,
+    .show_time = true,
+    .enable_color = true,
+    .append_newline = true,
+};
 
 void jcc_log_set_settings(jcc_log_settings_t settings)
 {
@@ -23,11 +25,19 @@ jcc_log_settings_t jcc_log_get_settings(void)
     return log_settings;
 }
 
-jcc_int_t log_fds[LOG_LEVEL_COUNT] = {CONST(FILE, FD_OUT),
-                                      CONST(FILE, FD_ERR),
-                                      CONST(FILE, FD_ERR)};
+jcc_int_t log_fds[LOG_LEVEL_COUNT] = {
+    CONST(FILE, FD_OUT),
+    CONST(FILE, FD_ERR),
+    CONST(FILE, FD_ERR),
+    CONST(FILE, FD_OUT),
+};
 
-const jcc_byte_t *log_names[] = {"INFO", "WARNING", "ERROR"};
+const jcc_byte_t *log_names[] = {
+    "INFO",
+    "WARNING",
+    "ERROR",
+    "FIXME",
+};
 
 static inline jcc_int_t get_offset(jcc_log_level_t level)
 {
@@ -110,41 +120,6 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
         }
     }
 
-    if (log_settings.show_code_path)
-    {
-        if (log_settings.enable_color)
-        {
-            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
-        }
-        CALL(FILE, FORMAT_PRINT, stream, "[");
-
-        if (log_settings.enable_color)
-        {
-            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT)));
-        }
-        CALL(FILE, FORMAT_PRINT, stream, "%s() ", location.function_name);
-
-        if (log_settings.enable_color)
-        {
-            CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
-            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_UNDERSCORE) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
-        }
-        CALL(FILE, FORMAT_PRINT, stream, "%s:%d", location.file_name, location.file_line);
-
-        if (log_settings.enable_color)
-        {
-            CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
-            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
-        }
-
-        CALL(FILE, FORMAT_PRINT, stream, "] ");
-
-        if (log_settings.enable_color)
-        {
-            CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
-        }
-    }
-
     if (log_settings.show_level)
     {
         if (log_settings.enable_color)
@@ -157,13 +132,52 @@ void jcc_log(jcc_log_level_t level, jcc_code_location_t location, const jcc_byte
             case LOG_ERROR:
                 CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_RED)));
                 break;
+            case LOG_FIXME:
+                CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, GEN_FORMAT_BLINK) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_RED)));
+                break;
             default:
                 CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_GREEN)));
                 break;
             }
         }
 
-        CALL(FILE, FORMAT_PRINT, stream, "%s ", log_names[offset]);
+        CALL(FILE, FORMAT_PRINT, stream, "%s", log_names[offset]);
+        if (log_settings.enable_color)
+        {
+            CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
+        }
+        CALL(FILE, FORMAT_PRINT, stream, " ");
+    }
+
+    if (log_settings.show_code_path)
+    {
+        if (log_settings.enable_color)
+        {
+            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
+        }
+        CALL(FILE, FORMAT_PRINT, stream, "[");
+
+        if (log_settings.enable_color)
+        {
+            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_BRIGHT) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_CYAN)));
+        }
+        CALL(FILE, FORMAT_PRINT, stream, "%s() ", location.function_name);
+
+        if (log_settings.enable_color)
+        {
+            CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
+            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
+        }
+        CALL(FILE, FORMAT_PRINT, stream, "%s:%d", location.file_name, location.file_line);
+
+        if (log_settings.enable_color)
+        {
+            CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
+            CALL(FILE, FORMAT_PRINT, stream, CALL(TERMINAL_COLORS, SHELL_COLOR_ESCAPE_SEQ, CONST(TERMINAL_COLORS, GEN_FORMAT_DIM) ";" CONST(TERMINAL_COLORS, FOREGROUND_COL_BLUE)));
+        }
+
+        CALL(FILE, FORMAT_PRINT, stream, "] ");
+
         if (log_settings.enable_color)
         {
             CALL(FILE, FORMAT_PRINT, stream, CONST(TERMINAL_COLORS, SHELL_FORMAT_RESET));
